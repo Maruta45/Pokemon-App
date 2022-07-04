@@ -1,6 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+/**
+ * @format
+ * @type {import('next').NextConfig}
+ */
 
-module.exports = nextConfig
+const nextConfig = {
+	reactStrictMode: false,
+	images: {
+		domains: ['raw.githubusercontent.com'],
+	},
+};
+
+module.exports = nextConfig;
