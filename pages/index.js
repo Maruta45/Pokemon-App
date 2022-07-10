@@ -1,26 +1,27 @@
 /** @format */
 import { useEffect, useState } from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
 import Link from 'next/link';
 
 import Layout from '../components/Layout';
 import Card from '../components/Card';
-import fetchApi from '../utils/fetchApi';
 
 export default function Home() {
 	const [loading, setLoading] = useState(true);
-	// const [limit, setLimit] = useState(20);
 	const [pokemon, setPokemon] = useState([]);
 
 	const fetchPokemon = async () => {
-		// const extendLimit = limit + 20;
-		fetchApi(`pokemon?limit=150`, 'get', {})
-			.then((res) => {
-				const results = res.results;
-				const clonePokemon = results.slice();
-				clonePokemon.push(...results);
-				setPokemon(clonePokemon);
-				setLimit(extendLimit);
+		const requestOptions = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		fetch(`https://pokeapi.co/api/v2/pokemon?limit=151`, requestOptions)
+			.then((res) => res.json())
+			.then((data) => {
+				const { results } = data;
+				setPokemon(results);
 			})
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
@@ -46,11 +47,6 @@ export default function Home() {
 						);
 					})}
 				</div>
-				{/* <div className='flex p-4 w-full'>
-					<button onClick={() => fetchPokemon()} className='mx-auto text-2xl dark:text-white transition duration-500'>
-						<IoIosArrowDown className='mx-auto text-5xl animate-bounce' />
-					</button>
-				</div> */}
 			</Layout>
 		);
 	}

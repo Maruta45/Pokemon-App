@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
-import fetchApi from '../../utils/fetchApi';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Detail() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(true);
 	const [pokemonInfo, setPokemonInfo] = useState({});
+	const [types, setTypes] = useState([]);
+	const [ability, setAbility] = useState([]);
 
 	useEffect(() => {
 		pokemonDetail();
@@ -17,10 +19,18 @@ export default function Detail() {
 
 	const pokemonDetail = async () => {
 		const { name } = router.query;
-		fetchApi(`pokemon/${name}`, 'get', {})
-			.then((res) => {
-				console.log(res);
-				setPokemonInfo(res);
+		const requestOptions = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, requestOptions)
+			.then((res) => res.json())
+			.then((data) => {
+				setPokemonInfo(data);
+				setTypes(data.types);
+				setAbility(data.abilities);
 			})
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
@@ -38,8 +48,8 @@ export default function Detail() {
 					</div>
 					<h1 className='font-semibold font-sans pt-8'>
 						<span className='font-bold'>Type : </span>
-						{pokemonInfo.types &&
-							pokemonInfo.types
+						{types &&
+							types
 								.map((type) => {
 									return type.type.name;
 								})
@@ -47,12 +57,14 @@ export default function Detail() {
 					</h1>
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Abilities : </span>
-						{pokemonInfo.abilities &&
-							pokemonInfo.abilities
-								.map((ability) => {
-									return ability.ability.name;
-								})
-								.join(', ')}
+						{ability &&
+							ability.map((item) => {
+								return (
+									<Link href={`/abilities/${item.ability.name}`} key={item.ability.name}>
+										<a className='hover:text-blue-700'>{item.ability.name.concat(' ')}</a>
+									</Link>
+								);
+							})}
 					</h1>
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Game Indices : </span>
