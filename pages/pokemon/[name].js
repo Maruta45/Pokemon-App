@@ -10,6 +10,7 @@ export default function Detail() {
 	const router = useRouter();
 	const [loading, setLoading] = useState(true);
 	const [pokemonInfo, setPokemonInfo] = useState({});
+	const [pokemonMoves, setPokemonMoves] = useState([]);
 	const [types, setTypes] = useState([]);
 	const [ability, setAbility] = useState([]);
 
@@ -31,6 +32,7 @@ export default function Detail() {
 				setPokemonInfo(data);
 				setTypes(data.types);
 				setAbility(data.abilities);
+				setPokemonMoves(data.moves);
 			})
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
@@ -53,7 +55,7 @@ export default function Detail() {
 							  types.map((item) => {
 									return (
 										<Link href={`/type/${item.type.name}`} key={item.type.name}>
-											<a className='hover:text-blue-700'>{item.type.name.concat(' ')}</a>
+											<a className='hover:text-blue-700 capitalize'>{item.type.name.concat(' ')}</a>
 										</Link>
 									);
 							  })
@@ -66,13 +68,13 @@ export default function Detail() {
 							  ability.map((item) => {
 									return (
 										<Link href={`/abilities/${item.ability.name}`} key={item.ability.name}>
-											<a className='hover:text-blue-700'>{item.ability.name.concat(' ')}</a>
+											<a className='hover:text-blue-700 capitalize'>{item.ability.name.concat(' ')}</a>
 										</Link>
 									);
 							  })
 							: 'No Ability'}
 					</h1>
-					<h1 className='font-semibold font-sans mt-4'>
+					<h1 className='font-semibold font-sans mt-4 capitalize'>
 						<span className='font-bold'>Game Indices : </span>
 						{pokemonInfo.game_indices.length > 0
 							? pokemonInfo.game_indices &&
@@ -85,13 +87,15 @@ export default function Detail() {
 					</h1>
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Moves : </span>
-						{pokemonInfo.moves.length > 0
-							? pokemonInfo.moves &&
-							  pokemonInfo.moves
-									.map((move) => {
-										return move.move.name;
-									})
-									.join(', ')
+						{pokemonMoves.length > 0
+							? pokemonMoves &&
+							  pokemonMoves.map((item) => {
+									return (
+										<Link href={`/moves/${item.move.name}`} key={item.move.name}>
+											<a className='hover:text-blue-700 capitalize'>{item.move.name.concat(' ')}</a>
+										</Link>
+									);
+							  })
 							: 'None'}
 					</h1>
 				</div>
