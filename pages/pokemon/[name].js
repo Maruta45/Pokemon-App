@@ -48,41 +48,51 @@ export default function Detail() {
 					</div>
 					<h1 className='font-semibold font-sans pt-8'>
 						<span className='font-bold'>Type : </span>
-						{types &&
-							types
-								.map((type) => {
-									return type.type.name;
-								})
-								.join(', ')}
+						{types.length > 0
+							? types &&
+							  types.map((item) => {
+									return (
+										<Link href={`/type/${item.type.name}`} key={item.type.name}>
+											<a className='hover:text-blue-700'>{item.type.name.concat(' ')}</a>
+										</Link>
+									);
+							  })
+							: 'No Type'}
 					</h1>
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Abilities : </span>
-						{ability &&
-							ability.map((item) => {
-								return (
-									<Link href={`/abilities/${item.ability.name}`} key={item.ability.name}>
-										<a className='hover:text-blue-700'>{item.ability.name.concat(' ')}</a>
-									</Link>
-								);
-							})}
+						{ability.length > 0
+							? ability &&
+							  ability.map((item) => {
+									return (
+										<Link href={`/abilities/${item.ability.name}`} key={item.ability.name}>
+											<a className='hover:text-blue-700'>{item.ability.name.concat(' ')}</a>
+										</Link>
+									);
+							  })
+							: 'No Ability'}
 					</h1>
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Game Indices : </span>
-						{pokemonInfo.game_indices &&
-							pokemonInfo.game_indices
-								.map((game) => {
-									return game.version.name;
-								})
-								.join(', ')}
+						{pokemonInfo.game_indices.length > 0
+							? pokemonInfo.game &&
+							  pokemonInfo.game_indices
+									.map((game) => {
+										return game.version.name;
+									})
+									.join(', ')
+							: 'None'}
 					</h1>
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Moves : </span>
-						{pokemonInfo.moves &&
-							pokemonInfo.moves
-								.map((move) => {
-									return move.move.name;
-								})
-								.join(', ')}
+						{pokemonInfo.moves.length > 0
+							? pokemonInfo.moves &&
+							  pokemonInfo.moves
+									.map((move) => {
+										return move.move.name;
+									})
+									.join(', ')
+							: 'None'}
 					</h1>
 				</div>
 			</Layout>
