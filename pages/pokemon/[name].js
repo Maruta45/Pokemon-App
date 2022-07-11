@@ -75,7 +75,7 @@ export default function Detail() {
 					<h1 className='font-semibold font-sans mt-4'>
 						<span className='font-bold'>Game Indices : </span>
 						{pokemonInfo.game_indices.length > 0
-							? pokemonInfo.game &&
+							? pokemonInfo.game_indices &&
 							  pokemonInfo.game_indices
 									.map((game) => {
 										return game.version.name;
